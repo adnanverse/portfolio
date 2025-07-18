@@ -1,0 +1,121 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
+body {
+  font-family: 'Sora', sans-serif;
+  /* font-weight: 400; */
+}
+.slope {
+  clip-path: polygon(0 0, 0 100%, 100% 0);
+}
+
+.slope-2 {
+  clip-path: polygon(100% 100%, 40% 100%, 100% 0);
+
+
+}
+
+
+
+/* .slick-active {} */
+
+#cssforslick ul li button {
+  color: white;
+  background-color: whites\e;
+
+}
+
+.strokeSnake {
+  stroke: url(#snake-gradient);
+  /* Gradient stroke from SVG defs below */
+  stroke-width: 1.5;
+  stroke-dasharray: 300;
+  stroke-dashoffset: 0;
+  animation: snakeBorder 5s linear infinite;
+}
+
+@keyframes snakeBorder {
+  to {
+    stroke-dashoffset: -600;
+  }
+}
+
+.active-link {
+  color: #C8F31D;
+}
+
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+    border-radius: 12px;
+  }
+
+  50% {
+    background-position: 100% 50%;
+    border-radius: 20px;
+  }
+
+  100% {
+    background-position: 0% 50%;
+    border-radius: 12px;
+  }
+}
+
+.animate-gradientMove {
+  background-size: 200% 200%;
+  animation: gradientMove 4s ease-in-out infinite;
+}
+
+/* In global CSS */
+.slick-slider .slick-dots li button:before {
+  font-size: 5px;
+  color: white !important;
+  opacity: 1 !important;
+  /* ensures visibility */
+}
+
+.slick-slider .slick-dots li.slick-active button:before {
+  color: white !important;
+}
+
+.download-button {
+  background: linear-gradient(90deg, #cc2bff, #3b82f6); /* pink to blue gradient */
+  clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+  border-radius: 0 0 15px 15px;
+  transition: all 0.3s ease-in-out;
+  border: 2px solid white;
+  display: inline-block;
+  box-shadow: 0px 5px 0px 0px #111;
+}
+.download-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.4);
+}
+
+
+
+@keyframes letterFade {
+  0% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-letter {
+  animation: letterFade 0.6s ease forwards;
+}
+
+.wave-up {
+  transform: translateY(-100%);
+  transition: transform 1.2s ease-in-out;
+}
+
+.text-up {
+  transform: translateY(-1500px);
+  opacity: 0;
+  transition: all 1.2s ease-in-out;
+}
