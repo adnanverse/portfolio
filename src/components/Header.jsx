@@ -11,7 +11,7 @@ export default function Header({ email }) {
       <Menu menu={menu} setmenu={setmenu} />
       <div className="w-full max-w-[1278px] mx-auto flex items-center justify-between ">
         <figure>
-          <img src="/images/logo.png" className='sm:w-[200px] w-[150px]' alt="Logo" />
+          <img src="/images/logo.png" className='sm:w-[200px] w-[160px]' alt="Logo" />
         </figure>
 
         <nav className="hidden md:block">
@@ -41,7 +41,7 @@ export default function Header({ email }) {
           <a href={`mailto:${email}`}>{email}</a>
         </div>
 
-        <div className="md:hidden sm:text-4xl text-[29px] text-[#E9E9E9]">
+        <div className="md:hidden sm:text-4xl text-[30px] text-[#E9E9E9]">
           <TbMenuDeep onClick={()=>setmenu(true)} />
         </div>
       </div>

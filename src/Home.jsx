@@ -18,15 +18,15 @@ export default function Home() {
     const homeRef = useRef(null);
     const animatedDivRef = useRef(null);
     const [showLoader, setShowLoader] = useState(true);
-    let   [profiledetail, setprofiledetail] = useState('');
-    let   [baseurl, setbaseurl] = useState('')
+    let [profiledetail, setprofiledetail] = useState('');
+    let [baseurl, setbaseurl] = useState('')
     useEffect(() => {
         axios.post('/api/website/profile')
             .then((response) => {
                 if (response.data.status == true) {
                     setbaseurl(response.data.base_url)
                     setprofiledetail(response.data.data)
-                    setTimeout(() => setShowLoader(false), 1000); 
+                    setTimeout(() => setShowLoader(false), 1000);
                 } else {
                     toast.error('something went wrong pease reach us later or connect me with mail')
                 }
@@ -40,28 +40,30 @@ export default function Home() {
     }, [])
 
     useEffect(() => {
-        const ctx = gsap.context(() => {
-            gsap.fromTo(
-                animatedDivRef.current,
-                { marginTop: '0.25rem' }, // mt-1
-                {
-                    marginTop: '3rem', // mt-12
-                    duration: 1,
-                    ease: 'power2.out',
-                    scrollTrigger: {
-                        trigger: homeRef.current,
-                        start: 'top center',
-                        toggleActions: 'play none none reverse',
-                    },
-                }
-            );
-        });
+        if (!showLoader) {
+            const ctx = gsap.context(() => {
+                gsap.fromTo(
+                    animatedDivRef.current,
+                    { marginTop: '0.25rem' }, // mt-1
+                    {
+                        marginTop: '3rem', // mt-12
+                        duration: 1,
+                        ease: 'power2.out',
+                        scrollTrigger: {
+                            trigger: homeRef.current,
+                            start: 'top center',
+                            toggleActions: 'play none none reverse',
+                        },
+                    }
+                );
+            });
 
-        return () => ctx.revert();
-    }, []);
+            return () => ctx.revert();
+        }
+    }, [showLoader]);
 
-    return (  
-        <div className="w-full lg:px-16 sm:px-16 px-3  pb-5 bg-[#232323]">
+    return (
+        <div className="w-full lg:px-16 sm:px-16 px-3 overflow-x-hidden  pb-5 bg-[#232323]">
             <LoaderComp isVisible={showLoader} />
             <Header email={profiledetail.email} />
             <ToastContainer />
