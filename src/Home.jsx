@@ -74,7 +74,7 @@ export default function Home() {
 
             <div
                 ref={animatedDivRef}
-                className="mx-auto bg-[#1D1D1D] mt-1 rounded-tl-3xl max-w-[1274px] relative transition-all duration-500"
+                className="mx-auto bg-[#1D1D1D] mt-1 rounded-tl-3xl max-w-[1274px] overflow-x-hidden relative transition-all duration-500"
             >
                 <div className="md:flex hidden justify-end  absolute right-[0px] top-[-79px] rounded-bl-3xl w-[75%]">
                     <div className="basis-[15.5%] bg-[#1D1D1D] slope-2"></div>
