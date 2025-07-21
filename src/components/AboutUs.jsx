@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { toast } from 'react-toastify';
 import axios from '../AxiosInstance/axiosInstance';
 
-export default function AboutUs({showLoader}) {
+export default function AboutUs() {
 
     const containerRef = useRef(null);
     let [paras, setparas] = useState([])
@@ -28,7 +28,6 @@ export default function AboutUs({showLoader}) {
     }, [])
 
      useEffect(() => {
-        if (!showLoader) {
         if (paras.length === 0) return;
 
         // Delay to ensure DOM is rendered
@@ -50,8 +49,7 @@ export default function AboutUs({showLoader}) {
                 });
             });
         }, 100); // slight delay to allow rendering
-    }
-    }, [paras,showLoader]);
+    }, [paras]);
 
 
     return (

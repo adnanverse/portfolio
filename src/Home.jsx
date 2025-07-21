@@ -84,16 +84,16 @@ export default function Home() {
                 </div>
 
                 <Element name="about" className="scroll-mt-24">
-                    <AboutUs showLoader={showLoader} />
+                    <AboutUs />
                 </Element>
                 <Element name="skills" className="scroll-mt-24">
-                    <Skills showLoader={showLoader} />
+                    <Skills />
                 </Element>
                 <Element name="projects" className="scroll-mt-24">
-                    <Projects showLoader={showLoader} />
+                    <Projects />
                 </Element>
                 <Element name="contact" className=" overflow-x-hidden scroll-mt-24">
-                    <ContactUs email={profiledetail.email} showLoader={showLoader} />
+                    <ContactUs email={profiledetail.email} />
                     <footer className="bg-[#232323] py-5 text-center text-white text-[11px] sm:text-[12px] md:text-[13px] lg:text-[14px] font-['Sora'],sans-serif">
                         <p>© {new Date().getFullYear()} Adnan Dev. All rights reserved.</p>
                     </footer>

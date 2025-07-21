@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Skills({showLoader}) {
+export default function Skills() {
     const cardsRef = useRef([]);
     let [skills, setskills] = useState([])
     let [baseurl, setbaseurl] = useState('')
@@ -34,7 +34,6 @@ export default function Skills({showLoader}) {
     }, [])
 
     useEffect(() => {
-        if (!showLoader) {
         if (skills.length === 0) return;
 
         // Wait for DOM paint
@@ -54,8 +53,7 @@ export default function Skills({showLoader}) {
                 }
             );
         }, 100); // slight delay to ensure elements are mounted
-    }
-    }, [skills,showLoader]);
+    }, [skills]);
 
 
     return (

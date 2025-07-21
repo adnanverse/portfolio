@@ -8,7 +8,7 @@ import { MdCancel } from "react-icons/md";
 import Slider from 'react-slick'
 import axios from '../AxiosInstance/axiosInstance';
 
-export default function Projects({showLoader}) {
+export default function Projects() {
 
     let [projects, setprojects] = useState([]);
     let [baseurl, setbaseurl] = useState('')
@@ -46,7 +46,7 @@ export default function Projects({showLoader}) {
                 projects.map((v,i)=>{
                     if(v.project_type=='frontend'){
                         return(
-                                 <ProductCard key={i} showLoader={showLoader} baseurl={baseurl} v={v} i={i} />
+                                 <ProductCard key={i} baseurl={baseurl} v={v} i={i} />
                         )
                     }
                 })
@@ -74,7 +74,7 @@ export default function Projects({showLoader}) {
 
 
 
-function ProductCard({ i, v, baseurl , showLoader }) {
+function ProductCard({ i, v, baseurl }) {
     let [OpenViewMore, SetOpenViewMore] = useState(false)
     const mainSlider = useRef(null);
     const navSlider = useRef(null);
@@ -85,7 +85,6 @@ function ProductCard({ i, v, baseurl , showLoader }) {
     const projectRefs = useRef([]);
 
     useEffect(() => {
-        if (!showLoader) {
         projectRefs.current.forEach((el, index) => {
             gsap.from(el, {
                 x: index % 2 === 0 ? -50 : 50,
@@ -101,8 +100,7 @@ function ProductCard({ i, v, baseurl , showLoader }) {
                 }
             });
         });
-    }
-    }, [showLoader]);
+    }, []);
 
     let settings1 = {
         dots: true,

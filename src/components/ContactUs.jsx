@@ -9,11 +9,10 @@ import { toast } from 'react-toastify';
 gsap.registerPlugin(ScrollTrigger);
 
 
-export default function ContactUs({ email,showLoader }) {
+export default function ContactUs({ email }) {
   const sectionRef = useRef(null);
 
   useEffect(() => {
-    if (!showLoader) {
     gsap.fromTo(
       sectionRef.current,
       { opacity: 0, scale: 0.95 },
@@ -29,8 +28,7 @@ export default function ContactUs({ email,showLoader }) {
         },
       }
     );
-  }
-  }, [showLoader]);
+  }, []);
 
   let formhandler = (event) => {
     event.preventDefault();
