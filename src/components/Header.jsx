@@ -7,7 +7,7 @@ export default function Header({ email }) {
   let [menu,setmenu]=useState(false)
   return (
     
-    <header className="sticky top-0 z-50 bg-[#232323] py-4 font-[\'Sora\'],sans-serif   ">
+    <header className="sticky top-0 z-50 bg-[#232323] py-4 font-[\'Sora\'],sans-serif">
       <Menu menu={menu} setmenu={setmenu} />
       <div className="w-full max-w-[1278px] mx-auto flex items-center justify-between ">
         <figure>
