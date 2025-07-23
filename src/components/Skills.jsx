@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Skills({showLoader}) {
+export default function Skills({ showLoader }) {
     const cardsRef = useRef([]);
     let [skills, setskills] = useState([])
     let [baseurl, setbaseurl] = useState('')
@@ -15,47 +15,47 @@ export default function Skills({showLoader}) {
 
 
     useEffect(() => {
-        axios.post('api/website/skills',{type:'skill'}
+        axios.post('api/website/skills', { type: 'skill' }
         ).then((response) => {
-                if (response.data.status == true) {
-                    setbaseurl(response.data.base_url)
-                    setskills(response.data.data)
+            if (response.data.status == true) {
+                setbaseurl(response.data.base_url)
+                setskills(response.data.data)
 
-                } else {
-                    toast.error('something went wrong pease reach us later or connect me with mail')
-                }
+            } else {
+                toast.error('something went wrong pease reach us later or connect me with mail')
+            }
 
 
-            }).catch((error) => {
-                toast.error(error.message)
-            })
+        }).catch((error) => {
+            toast.error(error.message)
+        })
 
 
     }, [])
 
     useEffect(() => {
         if (!showLoader) {
-        if (skills.length === 0) return;
+            if (skills.length === 0) return;
 
-        // Wait for DOM paint
-        setTimeout(() => {
-            gsap.fromTo(
-                cardsRef.current.map(card => card?.querySelector('.underrow')),
-                { scaleX: 0.1, transformOrigin: 'left' },
-                {
-                    scaleX: 1,
-                    duration: 1,
-                    ease: 'power2.out',
-                    stagger: 0.2,
-                    scrollTrigger: {
-                        trigger: cardsRef.current[0],
-                        start: 'top 85%',
-                    },
-                }
-            );
-        }, 100); // slight delay to ensure elements are mounted
-    }
-    }, [skills,showLoader]);
+            // Wait for DOM paint
+            setTimeout(() => {
+                gsap.fromTo(
+                    cardsRef.current.map(card => card?.querySelector('.underrow')),
+                    { scaleX: 0.1, transformOrigin: 'left' },
+                    {
+                        scaleX: 1,
+                        duration: 1,
+                        ease: 'power2.out',
+                        stagger: 0.2,
+                        scrollTrigger: {
+                            trigger: cardsRef.current[0],
+                            start: 'top 85%',
+                        },
+                    }
+                );
+            }, 100); // slight delay to ensure elements are mounted
+        }
+    }, [skills, showLoader]);
 
 
     return (
@@ -78,19 +78,20 @@ function Skillcard({ innerRef, v, baseurl }) {
 
     return (
         <>
-           <div ref={innerRef} className='px-7 relative sm:basis-[48%] m:basis-[30%] w-full rounded-3xl mt-8 border border-[#4A4A4A]'>
-            <div className='flex py-5 items-center gap-9'>
-                <div className='basis-[20%]'>
-                    <img src={baseurl + '/' + v.image} className='w-full' alt="" />
+            <div ref={innerRef} className='px-7 relative sm:basis-[48%] m:basis-[30%] w-full rounded-3xl mt-8 border border-[#4A4A4A]'>
+                <div className='flex py-5 items-center gap-9'>
+                    <div className='basis-[20%]'>
+                        <img src={baseurl + '/' + v.image} className='w-full' alt="" />
+                    </div>
+                    <div className='text-white font-semibold text-[14px] sm:text-[16px] md:text-[18px] lg:text-[19px]'>
+                        {v.name}
+                    </div>
+                    <span className='absolute px-7 left-0 bottom-0 w-full h-[2px]'>
+                        <div className='underrow scale-x-[0.1] bg-white w-full px-7 h-[2px]'></div>
+                    </span>
+                    <span className="value border text-white border-[#ffffff1a] rounded-2xl absolute top-[10px] py-[3px] px-[10px] right-[10px] text-[12px] font-[300]">{v.percentage}%</span>
                 </div>
-                <div className='text-white font-semibold text-[14px] sm:text-[16px] md:text-[18px] lg:text-[19px]'>
-                    {v.name}
-                </div>
-                <span className='absolute px-7 left-0 bottom-0 w-full h-[2px]'>
-                    <div className='underrow scale-x-[0.1] bg-white w-full px-7 h-[2px]'></div>
-                </span>
             </div>
-        </div>
         </>
     )
 }

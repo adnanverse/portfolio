@@ -37,7 +37,7 @@ export default function Header({ email }) {
           </ul>
         </nav>
 
-        <div className="text-white font-light hidden md:block text-[11px] sm:text-[12px] md:text-[13px] lg:text-[14px] uppercase">
+        <div className="text-white font-light hidden md:block md:text-[12px] lg:text-[12px] uppercase">
           <a href={`mailto:${email}`}>{email}</a>
         </div>
 
@@ -53,17 +53,17 @@ export default function Header({ email }) {
 function Menu({menu,setmenu}) {
     let close = () => {
     setmenu(false)
-    // console.log(menu)
+   
   }
   return (
     <>
-      <div className={`h-[100%] text-white  w-[100%]  transition-all z-50 fixed ${(menu == true) ? 'top-0 left-0' : ' top-0 left-[-100%] '} bg-[#232323] text-[30px] `}>
+      <div className={`h-[100vh] text-white  w-[100%]  transition-all z-50 fixed ${(menu == true) ? 'top-0 left-0' : ' top-0 left-[-100%] '} bg-[#232323] text-[30px] `}>
 
-        <div className='flex justify-between py-4 px-3'>
+        <div className='flex justify-between  py-3 px-3'>
           <div>
             <RxCross2 className='text-white' onClick={close} />
           </div>
-          <div className='h-7'>
+          <div className='h-9.5'>
             <img src={logo} className='h-[100%]' alt="" />
           </div>
         </div>

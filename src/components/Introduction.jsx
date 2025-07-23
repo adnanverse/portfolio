@@ -9,17 +9,17 @@ import * as GiIcons from "react-icons/gi";
 import axios from '../AxiosInstance/axiosInstance';
 
 export default function Introduction({ profiledetail, baseurl }) {
-                                                                  
+
     let [links, setlinks] = useState([])
-    
+
 
     useEffect(() => {
         axios.post('api/website/social-links')
             .then((response) => {
                 if (response.data.status == true) {
                     setlinks(response.data.data)
-                    console.log('this is links ',response.data.data)
-                   
+
+
                 } else {
                     toast.error(response.data.message)
                 }
@@ -65,6 +65,23 @@ export default function Introduction({ profiledetail, baseurl }) {
         return IconComponent ? <IconComponent size={16} /> : <span className="text-red-500">Invalid Icon</span>;
     };
 
+    let handleResumeDownload = () => {
+        try {
+          const response =  axios.get(`/download/${profiledetail.resume}`, {
+                responseType: 'blob', // ⚠️ Important
+            })
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'Adnan_Resume.pdf'); // ✅ File name set
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            console.error('Resume download failed:', error);
+        }
+    }
+
     return (
         <div className='   mx-auto   max-w-[1274px]'>
             <div className=' md:flex md:flex-wrap md:gap-20 pt-11   md:rounded-r-3xl rounded-br-3xl md:rounded-br-none rounded-tl-3xl bg-[#1D1D1D] sm:px-11 px-3 w-full mx-auto '>
@@ -85,24 +102,24 @@ export default function Introduction({ profiledetail, baseurl }) {
                                 {
                                     links.map((v, i) => {
                                         return (
-                                              
+
                                             <a href={v.url} key={i} className=' basis-[45px]  flex items-center justify-center h-11 hover:bg-white hover:text-black text-white rounded-lg border border-[#4A4A4A]'>
-                                              
+
                                                 {getIconComponent(v.icon)}
-                                                
+
                                             </a>
-                                            
+
                                         )
                                     })
                                 }
 
-                                
+
 
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className=' text-left lg:py-4 xl:py-0 md:py-0  py-16 flex flex-col md:gap-5 lg:gap-10 gap-8  flex-wrap flex- md:basis-[50%]'>
+                <div className=' text-left lg:py-4 xl:py-0 md:py-0  py-10 flex flex-col md:gap-5 lg:gap-10 gap-8  flex-wrap flex- md:basis-[50%]'>
                     <h1 className='text-[30px] sm:text-[42px] md:text-[46px] lg:text-[50px] font-semibold leading-tight text-white'>
                         Hello, I am <span className='text-[#C8F31D]'>Adnan,</span><br />
                         Full Stack Developer Based in India
@@ -113,12 +130,13 @@ export default function Introduction({ profiledetail, baseurl }) {
 
                     <div className="mt-[25px] w-[170px] md:mt-0">
                         <div className="butn-presv [perspective:500px]">
-                            <a
-                                href={`http://portfolio-api-production-9141.up.railway.app/download/${profiledetail.resume}`}
-                                className="bg-transparent w-full h-full block py-[14px] px-[35px] border border-[#fff] hover:text-black text-[13px] hover:bg-[#fff] rounded-md hover:text-dark text-white transition-all duration-[.5s] ease-in-out [transform:rotateX(20deg)] hover:[transform:rotateX(0deg)]"
+                            <button
+                                onClick={handleResumeDownload}
+                                className="bg-transparent w-full h-full py-[14px]  cursor-pointer px-[35px] border border-[#fff] hover:text-black text-[13px] hover:bg-[#fff] rounded-md hover:text-dark text-white transition-all duration-[.5s] ease-in-out [transform:rotateX(20deg)] hover:[transform:rotateX(0deg)]"
                             >
                                 <span className="inline-block">Download C.V</span>
-                            </a>
+                            </button>
+
                         </div>
                     </div>
 
@@ -134,7 +152,7 @@ export default function Introduction({ profiledetail, baseurl }) {
 
             </div>
 
-           <div className='md:flex hidden rounded-bl-3xl w-[41.5%]'>
+            <div className='md:flex hidden rounded-bl-3xl w-[41.5%]'>
                 <div className='basis-[80%] rounded-bl-3xl bg-[#1D1D1D] p-10'></div>
                 <div className='basis-[15.5%] bg-[#1D1D1D] slope'></div>
             </div>

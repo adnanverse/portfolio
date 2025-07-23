@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from 'react';
-
+import React, { useRef, useEffect, useState } from 'react';
+import ReCAPTCHA from "react-google-recaptcha";
 import { SiGmail } from "react-icons/si";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -9,32 +9,37 @@ import { toast } from 'react-toastify';
 gsap.registerPlugin(ScrollTrigger);
 
 
-export default function ContactUs({ email,showLoader }) {
+export default function ContactUs({ email, showLoader }) {
   const sectionRef = useRef(null);
+  const [captchaToken, setCaptchaToken] = useState(null);
+  const recaptchaRef = useRef();
+ 
 
   useEffect(() => {
     if (!showLoader) {
-    gsap.fromTo(
-      sectionRef.current,
-      { opacity: 0, scale: 0.95 },
-      {
-        opacity: 1,
-        scale: 1,
-        duration: 2,
-        ease: 'expo.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none none',
-        },
-      }
-    );
-  }
+      gsap.fromTo(
+        sectionRef.current,
+        { opacity: 0, scale: 0.95 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 2,
+          ease: 'expo.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    }
   }, [showLoader]);
+
 
   let formhandler = (event) => {
     event.preventDefault();
-    const formData = new FormData(event.target);
+    const form = event.target;
+    const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
     // Trim all fields
@@ -42,18 +47,74 @@ export default function ContactUs({ email,showLoader }) {
       data[key] = data[key].trim();
     });
 
+    // Validation logic
+    if (!data.name) {
+      toast.error("Name is required");
+      form.name.focus();
+      return;
+    }
+    if (data.name.length < 2) {
+      toast.error("Name must be at least 2 characters");
+      form.name.focus();
+      return;
+    }
+
+    if (!data.email) {
+      toast.error("Email is required");
+      form.email.focus();
+      return;
+    }
+    // Basic email regex
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(data.email)) {
+      toast.error("Please enter a valid email address");
+      form.email.focus();
+      return;
+    }
+
+    if (!data.subject) {
+      toast.error("Subject is required");
+      form.subject.focus();
+      return;
+    }
+    if (data.subject.length < 3) {
+      toast.error("Subject must be at least 3 characters");
+      form.subject.focus();
+      return;
+    }
+
+    if (!data.message) {
+      toast.error("Message is required");
+      form.message.focus();
+      return;
+    }
+    if (data.message.length < 10) {
+      toast.error("Message must be at least 10 characters");
+      form.message.focus();
+      return;
+    }
+    // ✅ reCAPTCHA check
+    if (!captchaToken) {
+      toast.error("Please complete the reCAPTCHA");
+      return;
+    }
+
+    // ✅ Add token to data sent to backend
+    data.recaptchaToken = captchaToken;
+
+    // All validations passed
     axios.post('api/website/contact-me', data)
       .then((response) => {
-        console.log('from contact',response)
+        console.log('from contact', response);
         toast.success('Message sent successfully');
-        event.target.reset(); // Optional: Reset form on success
+        form.reset();
       }).catch((error) => {
-        toast.error(error.message);
+        toast.error(error.message || "Something went wrong");
       });
   };
 
   return (
-     <div className="font-[\'Sora\'],sans-serif">
+    <div className="font-[\'Sora\'],sans-serif">
       <div ref={sectionRef} className='md:flex md:py-24 sm:py-20 py-15 px-3 justify-between sm:px-12'>
         <div className='basis-[42.1%] flex flex-col justify-between '>
           <h6 className="mb-[15px] opacity-[70%] uppercase text-[#BCBCBC] tracking-widest font-[300] text-[14px] sm:text-[10px] md:text-[11px] lg:text-[12px]">Get In Touch</h6>
@@ -128,6 +189,16 @@ export default function ContactUs({ email,showLoader }) {
                 minLength={10}
                 onInvalid={e => e.target.setCustomValidity("Please enter a message (min 10 characters)")}
                 onInput={e => e.target.setCustomValidity("")}
+              />
+            </div>
+            {/* 🛡️ reCAPTCHA Widget */}
+            <div className="flex justify-start">
+              <ReCAPTCHA
+                sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                ref={recaptchaRef}
+                onChange={(token) => setCaptchaToken(token)}
+                theme="dark"
+                 size="normal"
               />
             </div>
 

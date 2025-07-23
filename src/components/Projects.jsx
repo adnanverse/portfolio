@@ -7,8 +7,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MdCancel } from "react-icons/md";
 import Slider from 'react-slick'
 import axios from '../AxiosInstance/axiosInstance';
+import * as FaIcons from "react-icons/fa"; // For GitHub icon
 
-export default function Projects({showLoader}) {
+export default function Projects({ showLoader }) {
 
     let [projects, setprojects] = useState([]);
     let [baseurl, setbaseurl] = useState('')
@@ -19,10 +20,9 @@ export default function Projects({showLoader}) {
                 if (response.data.status == true) {
                     setbaseurl(response.data.base_url)
                     setprojects(response.data.data)
-                    console.log('this is prokects ',response.data.data)
-
+                    
                 } else {
-                    toast.error('something went wrong pease reach us later or connect me with mail')
+                    toast.error('something went wrong please reach us later or connect me with mail')
                 }
 
 
@@ -39,14 +39,14 @@ export default function Projects({showLoader}) {
             <h2 className="text-white pb-7 text-center text-[19px] sm:text-[25px] md:text-[31px] lg:text-[43px] font-semibold">
                 My Projects
             </h2>
-             <h3 className="text-[13px] sm:text-[15px] md:text-[19px] font-semibold text-gray-300 tracking-wide mb-6 text-center">
+            <h3 className="text-[13px] sm:text-[15px] md:text-[19px] font-semibold text-gray-300 tracking-wide mb-6 text-center">
                 Featured Frontend Projects
             </h3>
             {
-                projects.map((v,i)=>{
-                    if(v.project_type=='frontend'){
-                        return(
-                                 <ProductCard key={i} showLoader={showLoader} baseurl={baseurl} v={v} i={i} />
+                projects.map((v, i) => {
+                    if (v.project_type == 'frontend') {
+                        return (
+                            <ProductCard key={i} showLoader={showLoader} baseurl={baseurl} v={v} i={i} />
                         )
                     }
                 })
@@ -56,15 +56,15 @@ export default function Projects({showLoader}) {
             </h3>
 
             <div className='py-12'>
-              {
-                projects.map((v,i)=>{
-                    if(v.project_type=='backend'){
-                        return(
-                                 <ProductCard key={i} baseurl={baseurl} v={v} i={i} />
-                        )
-                    }
-                })
-            }
+                {
+                    projects.map((v, i) => {
+                        if (v.project_type == 'backend') {
+                            return (
+                                <ProductCard key={i} baseurl={baseurl} v={v} i={i} />
+                            )
+                        }
+                    })
+                }
             </div>
         </div>
     )
@@ -74,7 +74,7 @@ export default function Projects({showLoader}) {
 
 
 
-function ProductCard({ i, v, baseurl , showLoader }) {
+function ProductCard({ i, v, baseurl, showLoader }) {
     let [OpenViewMore, SetOpenViewMore] = useState(false)
     const mainSlider = useRef(null);
     const navSlider = useRef(null);
@@ -86,22 +86,22 @@ function ProductCard({ i, v, baseurl , showLoader }) {
 
     useEffect(() => {
         if (!showLoader) {
-        projectRefs.current.forEach((el, index) => {
-            gsap.from(el, {
-                x: index % 2 === 0 ? -50 : 50,
-                opacity: 0,
-                duration: 1,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: el,
-                    start: 'top 80%',
-                    end: 'top 50%',
-                    toggleActions: 'play none none none',
-                    markers: false
-                }
+            projectRefs.current.forEach((el, index) => {
+                gsap.from(el, {
+                    x: index % 2 === 0 ? -50 : 50,
+                    opacity: 0,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 80%',
+                        end: 'top 50%',
+                        toggleActions: 'play none none none',
+                        markers: false
+                    }
+                });
             });
-        });
-    }
+        }
     }, [showLoader]);
 
     let settings1 = {
@@ -216,9 +216,10 @@ function ProductCard({ i, v, baseurl , showLoader }) {
 
                         <div className='text-gray-300'>
                             <h4 className='text-white text-[13px] font-semibold mb-2'>Key Features:</h4>
-                            <ul className="list-disc list-inside text-[9px] sm:text-[12px] text-gray-300 space-y-1">
+                            <ul className="list-disc list-outside pl-5 text-[9px] sm:text-[12px] text-gray-300 space-y-1">
                                 {v.paragraphs.map((para, idx) => <li key={idx}>{para}</li>)}
                             </ul>
+
                         </div>
 
                         <div>
@@ -230,11 +231,35 @@ function ProductCard({ i, v, baseurl , showLoader }) {
                             </div>
                         </div>
 
-                        <div className='pt-4'>
-                            <a  href={v.link} className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-[9px] sm:text-[11px] shadow-md">
-                                🔗 Visit Live Website
-                            </a>
+                        <div className="flex gap-4 mt-1 flex-wrap items-center">
+                            {/* 🔗 Live Demo Link */}
+                            {v.link && (
+                                <a
+                                    href={v.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-2 text-white text-[10px] sm:text-[13px] font-medium border border-blue-400 px-3 py-1.5 rounded-md hover:bg-blue-500 hover:text-white transition-all duration-300"
+                                >
+                                    <IoIcons.IoMdGlobe className="text-lg sm:text-xl" />
+                                    Live Demo
+                                </a>
+                            )}
+
+                            {/* 🐙 GitHub Repo Link */}
+                            {v.github_link && (
+                                <a
+                                    href={v.github_link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-2 text-white text-[10px] sm:text-[13px] font-medium border border-gray-400 px-3 py-1.5 rounded-md hover:bg-gray-200 hover:text-black transition-all duration-300"
+                                >
+                                    <FaIcons.FaGithub className="text-lg sm:text-xl" />
+                                    GitHub Repo
+                                </a>
+                            )}
                         </div>
+
+
                     </div>
                 </div>
             </div>
