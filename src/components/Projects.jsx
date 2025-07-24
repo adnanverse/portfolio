@@ -141,7 +141,7 @@ function ProductCard({ i, v, baseurl, showLoader }) {
             <div ref={(el) => projectRefs.current[i] = el} className='border-[2px] mb-7 rounded-3xl border-[#4A4A4A] overflow-hidden'>
                 <div className={`transition-transform duration-500 ease-in-out origin-top ${OpenViewMore ? 'scale-y-0 h-0' : 'scale-y-100'}`}>
                     <div className={`${i % 2 === 0 ? '' : 'flex-row-reverse'} md:flex gap-5 rounded-3xl p-5`}>
-                        <div className='rounded-3xl border-white border basis-[50%] overflow-hidden'>
+                        <div className='rounded-3xl forcurve  basis-[50%] overflow-hidden'>
                             <Slider {...settings1}>
                                 {v.images?.slice().sort((a, b) => (a.order || 0) - (b.order || 0)).map((img, idx) => (
                                     <div key={idx}>
@@ -195,7 +195,7 @@ function ProductCard({ i, v, baseurl, showLoader }) {
                                 ))}
                             </Slider>
                         </div>
-                        <div className='rounded-3xl sm:hidden border-white border  overflow-hidden'>
+                        <div className='rounded-3xl sm:hidden forcurve border-white border  overflow-hidden'>
                             <Slider {...settings1}>
                                 {v.images?.slice().sort((a, b) => (a.order || 0) - (b.order || 0)).map((img, idx) => (
                                     <div key={idx}>

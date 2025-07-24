@@ -65,22 +65,28 @@ export default function Introduction({ profiledetail, baseurl }) {
         return IconComponent ? <IconComponent size={16} /> : <span className="text-red-500">Invalid Icon</span>;
     };
 
-    let handleResumeDownload = () => {
+    let handleResumeDownload = async () => {
         try {
-          const response =  axios.get(`/download/${profiledetail.resume}`, {
-                responseType: 'blob', // ⚠️ Important
-            })
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}download/${profiledetail.resume}`, {
+                responseType: 'blob', // Important for binary data
+            });
+
+            // Create a downloadable link
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'Adnan_Resume.pdf'); // ✅ File name set
+            link.setAttribute('download', 'Adnan_Resume.pdf'); // File name
             document.body.appendChild(link);
             link.click();
             link.remove();
+
+            // Revoke object URL to free memory
+            setTimeout(() => window.URL.revokeObjectURL(url), 100);
         } catch (error) {
             console.error('Resume download failed:', error);
         }
-    }
+    };
+
 
     return (
         <div className='   mx-auto   max-w-[1274px]'>
